@@ -1,21 +1,25 @@
-# Find publicly available data for key factors that influence US home prices nationally. Then, build a data science model that explains how these factors impacted home prices over the last 20 years.
-# Use the S&P Case-Schiller Home Price Index as a proxy for home prices:(fred.stlouisfed.org/series/CSUSHPISA).
-
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
-import statsmodels.api as sm
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error
 
-# Load datasets
-home_prices = pd.read_csv('https://fred.stlouisfed..vorg/data/CSUSHPISA.csv', parse_dates=['DATE'], index_col='DATE')
-mortgage_rates = pd.read_csv('https://fred.stlouisfed.org/data/MORTGAGE30US.csv', parse_dates=['DATE'], index_col='DATE')
-unemployment = pd.read_csv('https://fred.stlouisfed.org/data/UNRATE.csv', parse_dates=['DATE'], index_col='DATE')
-income = pd.read_csv('https://fred.stlouisfed.org/data/MEHOINUSA672N.csv', parse_dates=['DATE'], index_col='DATE')
-housing_starts = pd.read_csv('https://fred.stlouisfed.org/data/HOUST.csv', parse_dates=['DATE'], index_col='DATE')
-cpi = pd.read_csv('https://fred.stlouisfed.org/data/CPIAUCSL.csv', parse_dates=['DATE'], index_col='DATE')
+# Correct URLs
+home_prices_url = 'data/CSUSHPISA.csv'
+mortgage_rates_url = 'data/MORTGAGE30US.csv'
+unemployment_url = 'data/UNRATE.csv'
+income_url = 'data/MEHOINUSA672N.csv'
+housing_starts_url = 'data/HOUST.csv'
+cpi_url = 'data/CPIAUCSL.csv'
+
+# Load data into DataFrames
+home_prices = pd.read_csv(home_prices_url, parse_dates=['DATE'], index_col='DATE')
+mortgage_rates = pd.read_csv(mortgage_rates_url, parse_dates=['DATE'], index_col='DATE')
+unemployment = pd.read_csv(unemployment_url, parse_dates=['DATE'], index_col='DATE')
+income = pd.read_csv(income_url, parse_dates=['DATE'], index_col='DATE')
+housing_starts = pd.read_csv(housing_starts_url, parse_dates=['DATE'], index_col='DATE')
+cpi = pd.read_csv(cpi_url, parse_dates=['DATE'], index_col='DATE')
 
 # Merge datasets on DATE
 df = home_prices.join([mortgage_rates, unemployment, income, housing_starts, cpi], how='inner')
